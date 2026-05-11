@@ -26,7 +26,7 @@ extension UnsafeMutableRawBufferPointer {
         var rng = SystemRandomNumberGenerator()
 
         // We store bytes 64-bits at a time until we can't anymore.
-        var targetPtr = self
+        var targetPtr = UnsafeMutableRawBufferPointer(rebasing: self[..<count])
         while targetPtr.count > 8 {
             targetPtr.storeBytes(of: rng.next(), as: UInt64.self)
             targetPtr = UnsafeMutableRawBufferPointer(rebasing: targetPtr[8...])
